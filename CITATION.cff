@@ -1,0 +1,65 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "PhonoLogically"
+version: 1.0.0
+date-released: 2026-03-27
+authors:
+      - family-names: Waitzmann
+        given-names: A.
+license: CC-BY-NC-SA-4.0
+abstract: "PhonoLogically is a browser-based word-guessing game designed for learners of the International Phonetic Alphabet (IPA). Players have 6 attempts to guess difficult English words by entering IPA symbols instead of standard orthography."
+keywords:
+  - IPA
+  - International Phonetic Alphabet
+  - phonetics
+  - phonology
+  - language learning
+  - educational game
+  - linguistics
+  - pronunciation
+references:
+  - type: software
+    title: "Wordle"
+    authors:
+      - family-names: Wardle
+        given-names: Josh
+    year: 2021
+    notes: "Game mechanics inspiration"
+  - type: book
+    title: "Handbook of the International Phonetic Association. A Guide to the Use of the International Phonetic Alphabet."
+    authors:
+      - name: "International Phonetic Association"
+    publisher: "Cambridge University Press"
+    year: 1999
+    isbn: "9780511807954"
+    notes: "IPA symbols and phoneme inventory reference"
+  - type: book
+    title: "Cambridge English Pronouncing Dictionary"
+    authors:
+      - family-names: Jones
+        given-names: Daniel
+    publisher: "Cambridge University Press"
+    year: 2011
+    edition: "18th"
+    isbn: "9780521152532"
+    notes: "IPA transcription reference"
+  - type: book
+    title: "Longman Pronouncing Dictionary"
+    authors:
+      - family-names: Wells
+        given-names: John C.
+    publisher: "Pearson Longman"
+    year: 2008 
+    edition: "3rd"
+    isbn: "9781405881173"
+    notes: "IPA transcription reference"
+  - type: book
+    title: "Accents of English. An introduction."
+    authors:
+      - family-names: Wells
+        given-names: "John C."
+    publisher: "Cambridge University Press"
+    year: 1982
+    isbn: "0521229192"
+    notes: "lexical sets"
