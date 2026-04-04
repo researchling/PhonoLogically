@@ -6,7 +6,7 @@
 
 ## Overview
 
-PhonoLogically is a Wordle-inspired (Wardl 2021) browser-based word-guessing game built for learners of the International Phonetic Alphabet (IPA). Players have 6 attempts to guess one English word by entering IPA symbols instead of standard orthography. IPA transcriptions are based on Received Pronunciation and General American standards, cross-referenced with standard pronunciation dictionaries (Wells 2008; Jones 2011).
+PhonoLogically is a Wordle-inspired (Wardl, 2021) browser-based word-guessing game built for learners of the International Phonetic Alphabet (IPA). Players have 6 attempts to guess one English word by entering IPA symbols instead of standard orthography. IPA transcriptions are based on Received Pronunciation and General American standards, cross-referenced with standard pronunciation dictionaries (Wells, 2008; Jones, 2011).
 
 The current edition is designed for students of the *English Phonetics and Phonology courses* at the University of Bamberg which is why the word list features 117 challenging words they are required to learn. 
 
@@ -21,8 +21,7 @@ The current edition is designed for students of the *English Phonetics and Phono
 ## Core Features
 
 ### Basic Gameplay Mechanics
-**6-attempt guessing game** following Wordle (Wardle 2021) conventions
-- **Colour-coded feedback**:
+**6-attempt guessing game** following Wordle (Wardle 2021) conventions with **colour-coded feedback**:
    - 🟩 Green: Correct phoneme in correct position
    - 🟨 Yellow: Correct phoneme in wrong position
    - ⬛ Grey: Phoneme not in target word
@@ -49,11 +48,11 @@ The current edition is designed for students of the *English Phonetics and Phono
      - **FR**: AZERTY
    - **Adaptable difficulty**
      - **Easy Mode**: Accepts any valid phoneme combination of correct length
-     - **Hard Mode**: Only accepts real words from the curated word list
+     - **Difficult Mode**: Only accepts real words from the curated word list
 - **Background**: Option to add individual backgrounds by including photos in the assets/img folder and commenting in the respective code segments
 - **Support**
    - **Rules section**: Explains the basic game principle using example tiles and includes further relevant notes
-   - **Phoneme Inventory section**: Offers example words with transcriptions for every phoneme, RP and GA specific
+   - **Phoneme Inventory section**: Offers example words with transcriptions for every phoneme (RP and GA specific)
    - **Tip button**: Reveals first phoneme of the transcription
 - **Solution reveal**: IPA transcriptions with stress marks and standard orthography are shown at the end of the game
 - **Performance-based feedback**: Win messages vary depending on success and attempt count
