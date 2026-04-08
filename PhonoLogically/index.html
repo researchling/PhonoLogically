@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+    PhonoLogically - A Wordle-Inspired IPA Learning Game
+    Version: 1.0.0
+    Released: 08.04.2026
+    Copyright: © 2026 Waitzmann
+    License: CC BY-NC-SA 4.0
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A Wordle-inspired word-guessing game for learners of the International Phonetic Alphabet">
+    <title>PhonoLogically</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Crect%20width='90'%20height='90'%20x='7'%20y='8'%20rx='8'%20fill='%23253040'/%3E%3Crect%20width='90'%20height='90'%20x='5'%20y='5'%20rx='8'%20fill='%234a6278'/%3E%3Ctext%20x='50'%20y='75'%20font-family='Georgia,serif'%20font-size='78'%20fill='white'%20text-anchor='middle'%3E%C9%99%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="assets/css/styles.css?v=1.0.0">
+    <style>body { visibility: hidden; }</style><!-- hides body until CSS loads, prevents unstyled flash -->
+
+</head>
+<body>
+    <span id="variety-watermark"></span>
+    <!-- Header with buttons and title -->
+    <header class="header">
+        <div class="title-container">
+            <h1>PhonoLogically</h1>
+            <h2>Think like a linguist, play like a pro.</h2>
+        </div>
+        <div class="settings-container">
+            <button id="settings-button" aria-label="Settings"><svg width="25" height="25" viewBox="0 0 24 24" fill="currentColor"><path d="M12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Zm8.99-5L19.415,9c-.008-.022-.036-.107-.046-.129l1.11-1.11a2.011,2.011,0,0,0,0-2.842l-1.4-1.4a2,2,0,0,0-1.421-.588h0a2,2,0,0,0-1.419.588L15.07,4.612,15,4.58V3.009A2.011,2.011,0,0,0,12.99,1H11.01A2.011,2.011,0,0,0,9,3.009L9,4.566l-.086.049-.043.016L7.765,3.522a2,2,0,0,0-1.42-.589h0a2,2,0,0,0-1.421.588l-1.4,1.4a2.011,2.011,0,0,0,0,2.842l1.1,1.143c-.013.029-.033.063-.043.093H3.01A2.011,2.011,0,0,0,1,11.009v1.982A2.011,2.011,0,0,0,3.01,15l1.575,0c.008.022.036.107.046.129l-1.11,1.11a2.011,2.011,0,0,0,0,2.842l1.4,1.4a2.059,2.059,0,0,0,2.842,0l1.115-1.115c.022.011.1.047.121.056v1.571A2.011,2.011,0,0,0,11.01,23h1.98A2.011,2.011,0,0,0,15,20.991l0-1.557.129-.065,1.109,1.109a2.058,2.058,0,0,0,2.843,0l1.4-1.4a2.011,2.011,0,0,0,0-2.842l-1.1-1.143c.013-.029.033-.063.043-.093H20.99A2.011,2.011,0,0,0,23,12.991V11.009A2.011,2.011,0,0,0,20.99,9Zm0,4H19.421a2.1,2.1,0,0,0-1.466,3.54l1.109,1.124-1.414,1.4-1.11-1.109A2.1,2.1,0,0,0,13,19.42L12.99,21,11,20.991V19.42a2.043,2.043,0,0,0-1.307-1.881,2.138,2.138,0,0,0-.816-.164,2,2,0,0,0-1.417.58L6.336,19.064l-1.4-1.414,1.108-1.108A2.1,2.1,0,0,0,4.579,13L3,12.991,3.01,11H4.579A2.1,2.1,0,0,0,6.045,7.46L4.936,6.336l1.414-1.4L7.46,6.045a2.04,2.04,0,0,0,2.227.419l.018-.007A2.04,2.04,0,0,0,11,4.58L11.01,3,13,3.009V4.58a2,2,0,0,0,1.227,1.845c.026.013.057.027.087.039a2.038,2.038,0,0,0,2.226-.419l1.124-1.109,1.4,1.414L17.956,7.458A2.1,2.1,0,0,0,19.421,11H20.99l.01.009Z"/></svg></button> <!--MIT Licence; Neu icons pack-->
+            <div id="settings-dropdown" class="settings-dropdown">
+                <div class="settings-item" id="help-item">
+                    <span class="icon">?</span>
+                    <span class="label">Rules</span>
+                </div>
+                <div class="settings-divider"></div>
+                <div class="settings-item" id="stats-item">
+                    <span class="icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M11.7 8c4.2-0.3 4.3-2.7 4.3-5h-3v-3h-10v3h-3c0 2.3 0.1 4.7 4.3 5 0.9 1.4 2.1 2 2.7 2v4c-3 0-3 2-3 2h8c0 0 0-2-3-2v-4c0.6 0 1.8-0.6 2.7-2zM13 4h2c-0.1 1.6-0.4 2.7-2.7 2.9 0.3-0.8 0.6-1.7 0.7-2.9zM1 4h2c0.1 1.2 0.4 2.1 0.7 2.9-2.2-0.2-2.6-1.3-2.7-2.9zM4.5 6.1c-0.5-1.7-0.5-3.1-0.5-3.1v-2h1v2c0 0 0 1.7 0.4 3.1 0.5 1.7 1.6 2.9 1.6 2.9s-1.8-0.2-2.5-2.9z"/></svg></span> <!--Apache Licence 2.0; Vaadin icons pack-->
+                    <span class="label">Statistics</span>
+                </div>
+                <div class="settings-divider"></div>
+                <div class="settings-item" id="info-item">
+                    <span class="icon"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M 10,20 A 10,10 0 1 0 0,10 10,10 0 0 0 10,20 Z M 9,4 h 2 V 6 H 9 Z m 0,4 h 2 v 8 H 9 Z"></path></svg></span>
+                    <span class="label">Phoneme Inventory</span>
+                </div>
+                <div class="settings-divider"></div>
+                <div class="settings-item" id="tip-item">
+                    <span class="icon"><svg width="12" height="16" viewBox="0 0 16 24" fill="currentColor"><path d="m13.45 13.447c1.415-1.41 2.291-3.361 2.291-5.517 0-.022 0-.044 0-.067v.003c0-.002 0-.004 0-.006 0-2.174-.875-4.143-2.291-5.575l.001.001c-1.41-1.413-3.359-2.287-5.512-2.287-.024 0-.048 0-.071 0h.004c-.002 0-.004 0-.006 0-2.174 0-4.143.875-5.575 2.291l.001-.001c-1.415 1.41-2.291 3.361-2.291 5.517v.067-.003.006c0 2.174.875 4.143 2.291 5.575l-.001-.001c1.038 1.029 1.68 2.456 1.68 4.033v.009.014c0 .583.472 1.055 1.055 1.055h.015 5.616.029c.286 0 .543-.123.722-.32l.001-.001c.197-.188.32-.453.32-.747 0-.002 0-.003 0-.005.027-1.582.678-3.007 1.717-4.044zm-1.539-1.502c-1.183 1.176-1.987 2.731-2.213 4.468l-.004.039h-.537l1.36-6.546c.016-.07.025-.151.025-.233 0-.597-.484-1.08-1.08-1.08-.514 0-.944.359-1.053.84l-.001.007-.607 2.934-.681-2.968c-.117-.474-.538-.82-1.04-.82-.591 0-1.07.479-1.07 1.07 0 .089.011.175.031.257l-.002-.007 1.502 6.509h-.5c-.248-1.772-1.048-3.323-2.218-4.508l.001.001c-1.016-1.029-1.644-2.444-1.644-4.006 0-3.149 2.553-5.702 5.702-5.702s5.702 2.553 5.702 5.702c0 1.58-.643 3.01-1.68 4.042z"/><path d="m11.985 20.244c0-.005 0-.012 0-.018 0-.583-.472-1.055-1.055-1.055-.006 0-.012 0-.019 0h.001-6.08c-.593 0-1.073.48-1.073 1.073s.48 1.073 1.073 1.073h6.08c.592-.002 1.071-.482 1.073-1.073z"/><path d="m10.017 21.854h-4.47c-.593 0-1.073.48-1.073 1.073s.48 1.073 1.073 1.073h4.47c.58-.016 1.044-.491 1.044-1.073s-.464-1.057-1.043-1.073h-.002z"/></svg></span> <!--MIT Licence; Fontisto pack-->
+                    <span class="label">Reveal First Phoneme</span>
+                </div>
+                <div class="settings-divider-strong"></div>
+                <div class="settings-item" id="variety-item">
+                    <span class="label">Variety</span>
+                    <span class="variety-indicator" id="variety-indicator">RP</span>
+                </div>
+                <div class="settings-divider"></div>
+                <div class="settings-item" id="keyboard-item">
+                    <span class="label">Keyboard</span>
+                    <span class="keyboard-indicator" id="keyboard-indicator">GE</span>
+                </div>
+                <div class="settings-divider"></div>
+                <div class="settings-item" id="difficulty-item">
+                    <span class="label">Difficulty</span>
+                    <div class="toggle-switch" role="switch" aria-checked="false" aria-label="Difficulty" tabindex="0"></div>
+                </div>
+                <div class="settings-divider"></div>
+                <div class="settings-item" id="contrast-item">
+                    <span class="label">High Contrast</span>
+                    <div class="toggle-switch" role="switch" aria-checked="false" aria-label="High Contrast" tabindex="0"></div>
+                </div>
+                <div class="settings-divider"></div>
+                <div class="settings-item" id="light-item">
+                    <span class="label">Light Theme</span>
+                    <div class="toggle-switch" role="switch" aria-checked="false" aria-label="Light Theme" tabindex="0"></div>
+                </div>
+                <!-- Uncomment to enable the background selector in the settings panel -->
+                <!-- <div class="settings-divider"></div>
+                <div class="settings-item" id="background-item">
+                    <span class="label">Background</span>
+                    <span class="background-indicator" id="background-indicator">NO</span>
+                </div> -->
+            </div>
+        </div>
+    </header>
+
+    <div id="message" aria-live="polite"></div>
+    <div id="backdrop" class="backdrop"></div>
+
+    <!-- Help Modal -->
+    <div id="help-modal" class="help-modal modal">
+        <h3>Rules</h3>
+        <p><strong>Guess the transcription of an English word in six tries.</strong></p>
+        <ol class="justified">
+            <li>Type valid IPA symbols into a row.</li>
+            <li>Press the enter button to submit your guess.</li>
+        </ol>
+
+        <div class="example-typing">
+            <div class="demo-tile typing-tile">d</div>
+            <div class="demo-tile typing-tile">r</div>
+            <div class="demo-tile typing-tile">ɪ</div>
+            <div class="demo-tile typing-tile">ŋ</div>
+            <div class="demo-tile typing-tile">k</div>
+        </div>
+
+        <ol class="justified" start="3">
+            <li>Tile colours will indicate how close your guess was:</li>
+        </ol>
+
+        <div class="example">
+            <div class="example-row">
+                <div class="demo-tile correct">ɪ</div>
+                <span class="example-text">correct phoneme, correct spot</span>
+            </div>
+            <div class="example-row">
+                <div class="demo-tile partial-correct">ɪ</div>
+                <span class="example-text">part of a combination (e.g., ɪ in /eɪ/), correct spot</span>
+            </div>
+            <div class="example-row">
+                <div class="demo-tile present">ɪ</div>
+                <span class="example-text">correct phoneme, wrong spot</span>
+            </div>
+            <div class="example-row">
+                <div class="demo-tile partial-present">ɪ</div>
+                <span class="example-text">part of a combination (e.g., ɪ in /eɪ/), wrong spot</span>
+            </div>
+            <div class="example-row">
+                <div class="demo-tile absent">ɪ</div>
+                <span class="example-text">phoneme is not in the word</span>
+            </div>
+        </div>
+
+        <ol class="justified" start="4">
+            <li>At the end of the game, press ENTER or the NEW GAME button to start a new game.</li>
+        </ol>
+        <br>
+        <br>
+        <p><strong>Remarks concerning the transcription:</strong></p>
+        <ul class="justified">
+            <li>Some symbols combine automatically (diphthongs, long vowels, and affricates).</li>
+            <li>All schwas (/ə/) are included in the target words even if they are optional.</li>
+            <li>If there are multiple variants, any will be accepted.</li>
+            <li>Stress marks are not required.</li>
+        </ul>
+        <br>
+        <p><strong>You can find the following in the settings dropdown menu:</strong></p>
+        <ul class="justified">
+            <li>If you are unsure with regard to the transcription symbols, you can find examples in the <a href="#" onclick="event.stopPropagation(); hideHelpModal(); showInfoModal(); return false;"><em>Phoneme Inventory</em></a> section.</li>
+            <li>If you need a tip, you can reveal the first phoneme.</li>
+            <li>You can change the variety between standard British English (RP) and standard American English (GA). Make sure to know which symbols are relevant to your variety as the keyboard always allows you to enter symbols of both varieties (cf. <a href="#" onclick="event.stopPropagation(); hideHelpModal(); showInfoModal(); return false;"><em>Phoneme Inventory</em></a>).</li>
+            <li>You can change the keyboard depending on your physical keyboard type (DE, UK/US, FR).</li>
+            <li>You can enter any phoneme combination. If you increase difficulty, you can only enter correct words from the curated word list.</li>
+            <li>You can also change colour contrast and theme. High contrast mode improves legibility through increased colour contrasts. The best visual distinction is provided in the dark high contrast mode.</li>
+        </ul>
+
+        <p class="hint-text-small">Inspired by Wordle by Josh Wardle (2021)</p>
+        <p class="close-hint">click anywhere to close</p>
+    </div>
+
+    <!-- Statistics Modal -->
+    <div id="stats-modal" class="stats-modal modal">
+        <h3>Statistics</h3>
+        <div class="distribution-title">Games</div>
+        <div class="stats-summary">
+            <div class="stat-item">
+                <div class="stat-value" id="stat-played">0</div>
+                <div class="stat-label">Played</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="stat-win-pct">0</div>
+                <div class="stat-label">Won %</div>
+            </div>
+        </div>
+        <div class="distribution-title">Wins by Attempt</div>
+        <div id="distribution-chart">
+            <div class="distribution-row">
+                <span class="distribution-label">1</span>
+                <div class="distribution-bar-container">
+                    <div class="distribution-bar" data-row="0" style="width: 0%;"><span>0</span></div>
+                </div>
+            </div>
+            <div class="distribution-row">
+                <span class="distribution-label">2</span>
+                <div class="distribution-bar-container">
+                    <div class="distribution-bar" data-row="1" style="width: 0%;"><span>0</span></div>
+                </div>
+            </div>
+            <div class="distribution-row">
+                <span class="distribution-label">3</span>
+                <div class="distribution-bar-container">
+                    <div class="distribution-bar" data-row="2" style="width: 0%;"><span>0</span></div>
+                </div>
+            </div>
+            <div class="distribution-row">
+                <span class="distribution-label">4</span>
+                <div class="distribution-bar-container">
+                    <div class="distribution-bar" data-row="3" style="width: 0%;"><span>0</span></div>
+                </div>
+            </div>
+            <div class="distribution-row">
+                <span class="distribution-label">5</span>
+                <div class="distribution-bar-container">
+                    <div class="distribution-bar" data-row="4" style="width: 0%;"><span>0</span></div>
+                </div>
+            </div>
+            <div class="distribution-row">
+                <span class="distribution-label">6</span>
+                <div class="distribution-bar-container">
+                    <div class="distribution-bar" data-row="5" style="width: 0%;"><span>0</span></div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="distribution-title">Streak</div>
+        <div class="stats-summary streak-summary">
+            <div class="stat-item">
+                <div class="stat-value" id="stat-current-streak">0</div>
+                <div class="stat-label">Current</div>
+            </div>
+            <svg id="streak-flame" class="streak-flame" viewBox="0 0 128 128" stroke-linejoin="round" stroke="currentColor" fill="currentColor" stroke-width="3"><path d="M55 15c8 7 20 65 28 35q27 53-9 63c4-32-7-27-12-43q-27 24-7 43C3 90 66 46 55 15Z"/></svg>
+            <div class="stat-item">
+                <div class="stat-value" id="stat-max-streak">0</div>
+                <div class="stat-label">Best</div>
+            </div>
+        </div>
+        <p class="hint-text-small">Your game statistics are only stored locally in your browser.</p>
+        <button id="reset-stats">reset statistics</button>
+        <p class="close-hint">click anywhere to close</p>
+    </div>
+
+    <!--Info-Modal: Phoneme Inventory-->
+    <div id="info-modal" class="info-modal modal">
+        <h3>Phoneme Inventory</h3>
+        <p class="justified">If you are unsure of the symbols, have a look at the following examples. The transcription symbols are based on those established by the International Phonetic Association (1999) and are used following the guidelines of the Cambridge English Pronouncing Dictionary (Jones, 2011). The example words in the vowel section are according to Wells' (1982) lexical sets.</p>
+        <br>
+        <p><strong>Monophthongs</strong></p>
+        <table class="split-table">
+            <tr>
+                <td colspan="3"><em>short vowels</em></td>
+                <td colspan="3"><em>long vowels</em></td>
+            </tr>
+            <tr>
+                <td>/ɪ/</td><td class="smallcaps">kit</td><td>/kɪt/</td>
+                <td>/iː/</td><td class="smallcaps">fleece</td><td>/fliːs/</td>
+            </tr>
+            <tr>
+                <td>/e/</td><td class="smallcaps">dress</td><td>/dres/</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>/æ/</td><td class="smallcaps">trap</td><td>/træp/</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>/ʌ/</td><td class="smallcaps">strut</td><td>/strʌt/</td>
+                <td>/ɑː/</td><td class="smallcaps">start</td><td><span class="rp-only">/stɑːt/</span><span class="ga-only">/stɑːrt/</span></td>
+            </tr>
+            <tr class="rp-only">
+                <td>/ɒ/</td><td class="smallcaps">lot</td><td>/lɒt/</td>
+                <td>/ɔː/</td><td class="smallcaps">north</td><td>/nɔːθ/</td>
+            </tr>
+            <tr class="ga-only">
+                <td></td><td></td><td></td>
+                <td>/ɔː/</td><td class="smallcaps">north</td><td>/nɔːrθ/</td>
+            </tr>
+            <tr>
+                <td>/ʊ/</td><td class="smallcaps">foot</td><td>/fʊt/</td>
+                <td>/uː/</td><td class="smallcaps">goose</td><td>/ɡuːs/</td>
+            </tr>
+            <tr class="rp-only">
+                <td>/ə/</td><td class="smallcaps">letter</td><td>/ˈletə/</td>
+                <td>/ɜː/</td><td class="smallcaps">nurse</td><td>/nɜːs/</td>
+            </tr>
+            <tr class="ga-only">
+                <td>/ɚ/</td><td class="smallcaps">letter</td><td>/ˈlet̬ɚ/</td>
+                <td>/ɝː/</td><td class="smallcaps">nurse</td><td>/nɝːs/</td>
+            </tr>
+            <tr class="ga-only">
+                <td>/ə/</td><td class="smallcaps">comma</td><td>/ˈkɑːmə/</td>
+                <td></td>
+            </tr>
+        </table>
+        <br>
+        <p><strong>Diphthongs</strong></p>
+        <table>
+            <tr>
+                <td>/eɪ/</td><td class="smallcaps">face</td><td>/feɪs/</td>
+            </tr>
+            <tr>
+                <td>/aɪ/</td><td class="smallcaps">price</td><td>/praɪs/</td>
+            </tr>
+            <tr>
+                <td>/ɔɪ/</td><td class="smallcaps">choice</td><td>/tʃɔɪs/</td>
+            </tr>
+            <tr class="rp-only">
+                <td>/əʊ/</td><td class="smallcaps">goat</td><td>/ɡəʊt/</td>
+            </tr>
+            <tr class="ga-only">
+                <td>/oʊ/</td><td class="smallcaps">goat</td><td>/ɡoʊt/</td>
+            </tr>
+            <tr>
+                <td>/aʊ/</td><td class="smallcaps">mouth</td><td>/maʊθ/</td>
+            </tr>
+            <tr class="rp-only">
+                <td>/ɪə/</td><td class="smallcaps">near</td><td>/nɪə/</td>
+            </tr>
+            <tr class="rp-only">
+                <td>/eə/</td><td class="smallcaps">square</td><td>/skweə/</td>
+            </tr>
+            <tr class="rp-only">
+                <td>/ʊə/</td><td class="smallcaps">cure</td><td>/kjʊə/</td>
+            </tr>
+        </table>
+        <br>
+        <p><strong>Consonants</strong></p>
+        <table class="split-table">
+            <tr>
+                <td colspan="3"><em>voiced</em></td>
+                <td colspan="3"><em>voiceless</em></td>
+            </tr>
+            <tr>
+                <td>/b/</td><td class="smallcaps">buy</td><td>/baɪ/</td>
+                <td>/p/</td><td class="smallcaps">pie</td><td>/paɪ/</td>
+            </tr>
+            <tr>
+                <td>/d/</td><td class="smallcaps">dye</td><td>/daɪ/</td>
+                <td>/t/</td><td class="smallcaps">tie</td><td>/taɪ/</td>
+            </tr>
+            <tr>
+                <td>/g/</td><td class="smallcaps">game</td><td>/ɡeɪm/</td>
+                <td>/k/</td><td class="smallcaps">came</td><td>/keɪm/</td>
+            </tr>
+            <tr>
+                <td>/v/</td><td class="smallcaps">very</td><td>/ˈveri/</td>
+                <td>/f/</td><td class="smallcaps">ferry</td><td>/ˈferi/</td>
+            </tr>
+            <tr>
+                <td>/z/</td><td class="smallcaps">zone</td><td><span class="rp-only">/zəʊn/</span><span class="ga-only">/zoʊn/</span></td>
+                <td>/s/</td><td class="smallcaps">soon</td><td>/suːn/</td>
+            </tr>
+            <tr>
+                <td>/ʒ/</td><td class="smallcaps">pleasure</td><td><span class="rp-only">/ˈpleʒə/</span><span class="ga-only">/ˈpleʒɚ/</span></td>
+                <td>/ʃ/</td><td class="smallcaps">ship</td><td>/ʃɪp/</td>
+            </tr>
+            <tr>
+                <td>/dʒ/</td><td class="smallcaps">jeep</td><td>/dʒiːp/</td>
+                <td>/tʃ/</td><td class="smallcaps">cheap</td><td>/tʃiːp/</td>
+            </tr>
+            <tr>
+                <td>/ð/</td><td class="smallcaps">this</td><td>/ðɪs/</td>
+                <td>/θ/</td><td class="smallcaps">thing</td><td>/θɪŋ/</td>
+            </tr>
+            <tr>
+                <td>/m/</td><td class="smallcaps">meet</td><td>/miːt/</td>
+                <td>/h/</td><td class="smallcaps">hat</td><td>/hæt/</td>
+            </tr>
+            <tr>
+                <td>/n/</td><td class="smallcaps">nice</td><td>/naɪs/</td>
+            </tr>
+            <tr>
+                <td>/ŋ/</td><td class="smallcaps">king</td><td>/kɪŋ/</td>
+            </tr>
+            <tr>
+                <td>/l/</td><td class="smallcaps">lip</td><td>/lɪp/</td>
+            </tr>
+            <tr>
+                <td>/w/</td><td class="smallcaps">win</td><td>/wɪn/</td>
+            </tr>
+            <tr>
+                <td>/r/</td><td class="smallcaps">ring</td><td>/rɪŋ/</td>
+            </tr>
+            <tr>
+                <td>/j/</td><td class="smallcaps">yellow</td><td><span class="rp-only">/ˈjeləʊ/</span><span class="ga-only">/ˈjeloʊ/</span></td>
+            </tr>
+        </table>
+        <br>
+        <p><strong>Non-phonemic symbols</strong></p>
+        <table>
+            <tr>
+                <td>/i/</td><td class="smallcaps">happy</td><td>/ˈhæpi/</td>
+            </tr>
+            <tr>
+                <td>/u/</td><td class="smallcaps">visual</td><td>/ˈvɪʒuəl/</td>
+            </tr>
+            <tr class="ga-only">
+                <td>/t̬/</td><td class="smallcaps">better</td><td>/ˈbet̬ɚ/</td>
+            </tr>
+        </table>
+        <br>
+        <p><strong>References</strong></p>
+        <p class="references">International Phonetic Association. (1999). <em>Handbook of the International Phonetic Association. A Guide to the Use of the International Phonetic Alphabet.</em> Cambridge: Cambridge University Press. ISBN 9780511807954</p>
+        <p class="references">Jones, D. (2011). <em>Cambridge English Pronouncing Dictionary.</em> 18th edition, edited by P. Roach, J. Setter &amp; J. Esling. Cambridge: Cambridge University Press. ISBN 9780521152532</p>
+        <p class="references">Wells, J. C. (1982). <em>Accents of English. An introduction.</em> Cambridge: Cambridge University Press. ISBN 0521229192</p>
+        <p class="close-hint">click anywhere to close</p>
+    </div>
+    
+    <!-- Game board container -->
+    <div class="game-container">
+        <div id="game-board"></div>
+
+        <!-- Info box with solution -->
+        <div id="word-info" class="word-info-box">
+            <div id="win-message" class="win-message" style="display: none;"></div>
+            <div class="info-title">Target Word</div>
+            <div class="info-ipa" id="info-ipa"></div>
+            <div class="info-ortho-label">Spelling:</div>
+            <div class="info-ortho" id="info-ortho"></div>
+            <div class="close-hint">click anywhere to continue</div>
+        </div>
+    </div>
+
+    <div id="keyboard"></div>
+
+    <!-- New Game button (shown on game end) -->
+    <button id="mobile-new-game-button">New Game</button>
+
+    <div class="page-footer">
+        <p class="hint-text">© 2026 Waitzmann</p>
+        <!-- Uncomment to show image attribution at the bottom of the page -->
+        <!-- <p class="photo-credit credit-one">Image 1: [Add attribution here]</p>
+        <p class="photo-credit credit-two">Image 2: [Add attribution here]</p>
+        <p class="photo-credit credit-three">Image 3: [Add attribution here]</p> -->
+    </div>
+
+    <!-- Fullscreen button -->
+    <button id="fullscreen-btn" aria-label="Toggle Fullscreen">
+        <svg id="fs-enter-icon" width="22" height="22" viewBox="0 0 1024 1024" fill="currentColor"><path d="M160 96H352a32 32 0 0 1 0 64L192 160a32 32 0 0 0-32 32V352a32 32 0 0 1-64 0V96zM160 928H96V672a32 32 0 1 1 64 0V832a32 32 0 0 0 32 32H352a32 32 0 1 1 0 64zM864 96h64v256a32 32 0 1 1-64 0V192a32 32 0 0 0-32-32H672a32 32 0 1 1 0-64zM864 928H672a32 32 0 0 1 0-64H832a32 32 0 0 0 32-32V672a32 32 0 1 1 64 0v256z"/></svg>  <!--MIT License; Element Plus Icons-->
+        <svg id="fs-exit-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M10 4H8v4H4v2h6zM8 20h2v-6H4v2h4zm12-6h-6v6h2v-4h4zm0-6h-4V4h-2v6h6z"/></svg>  <!--MIT License; Boxicons-->
+    </button>
+
+    <!-- JavaScript: Words list (must be loaded first) -->
+    <script src="assets/js/words.js?v=1.0.0"></script>
+    <!-- JavaScript: Game logic -->
+    <script src="assets/js/app.js?v=1.0.0"></script>
+
+</body>
+</html>
