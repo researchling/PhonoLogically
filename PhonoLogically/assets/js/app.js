@@ -1,4 +1,4 @@
-﻿/* ==============================================
+/* ==============================================
    Difficulty mode
    true = Easy (all phoneme combinations allowed)
    false = Hard (only words from the list)
@@ -317,6 +317,7 @@ let keyMap = {}; // key to IPA mapping
 let tipUsed = false; // Track if tip has been used this game
 let submittedGuesses = []; // Guesses submitted this game (for re-colouring on variety switch)
 let messageTimeout = null; // Track message timeout to prevent overlap
+let currentAudio = null;
 
 /* ===============================================
    Persistent statistics (saved to localStorage)
@@ -465,6 +466,17 @@ function init() {
   document.getElementById("info-modal").addEventListener("click", hideInfoModal);
   document.getElementById("word-info").addEventListener("click", hideWordInfo);
   document.getElementById("tip-item").addEventListener("click", useTip);
+
+  document.getElementById("replay-btn").addEventListener("click", (e) => {
+    e.stopPropagation();
+    playWordAudio(targetWord.ortho);
+  });
+
+  // Ortho reveal: click to remove blur; always block propagation so box doesn't close
+  document.getElementById("info-ortho").addEventListener("click", (e) => {
+    e.stopPropagation();
+    document.getElementById("info-ortho").classList.remove("ortho-hidden");
+  });
 
   // settings dropdown
   document
@@ -944,6 +956,7 @@ function handleKeyPress(e) {
   // When the game is over, Enter starts a new game
   if (gameOver) {
     if (key === "Enter") {
+      if (currentAudio) return; // Defer new game start until audio playback has finished
       e.preventDefault();
       resetGame();
     }
@@ -967,7 +980,7 @@ function handleKeyPress(e) {
    ================================================ */
 function handleKey(key) {
   if (gameOver) {
-    if (key === "ENTER") resetGame();
+    if (key === "ENTER" && !currentAudio) resetGame();
     return;
   }
 
@@ -1486,6 +1499,54 @@ const WIN_MESSAGES_LATE = [
   "✧ last but not least ✧",
 ];
 
+/* =============================================
+   Word audio playback
+   ============================================= */
+
+function getAudioCandidates(ortho) {
+  const lower = ortho.toLowerCase();
+  const match = lower.match(/^(.+?)\s*\(([^)]+)\)$/);
+  if (match) {
+    const base = match[1].trim().replace(/\s+/g, '_');
+    const suffix = match[2].trim().replace(/\./g, '').replace(/\s+/g, '_');
+    return [base + '_' + suffix, base];
+  }
+  return [lower.replace(/\s+/g, '_')];
+}
+
+// Plays the pronunciation audio for the given word. First tries the active variety
+// folder, then falls back to the other variety.
+function playWordAudio(ortho) {
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  const fallbackVariety = VARIETY_MODE === 'RP' ? 'GA' : 'RP';
+  const paths = [];
+  for (const variety of [VARIETY_MODE, fallbackVariety]) {
+    for (const name of getAudioCandidates(ortho)) {
+      paths.push(`assets/wav/${variety}/${name}.wav`);
+    }
+  }
+  tryPlayAudio(paths, 0);
+}
+
+// Recursively tries each path until one plays successfully, or all are exhausted.
+function tryPlayAudio(paths, index) {
+  if (index >= paths.length) { currentAudio = null; return; }
+  const audio = new Audio(paths[index]);
+  currentAudio = audio;
+  let advanced = false;
+  function tryNext() {
+    if (advanced || currentAudio !== audio) return;
+    advanced = true;
+    currentAudio = null;
+    tryPlayAudio(paths, index + 1);
+  }
+  audio.addEventListener('error', tryNext, { once: true });
+  audio.addEventListener('ended', () => {
+    if (currentAudio === audio) currentAudio = null;
+  }, { once: true });
+  audio.play().catch(tryNext);
+}
+
 /* =====================================
    Shows solution word after game ends
    ====================================== */
@@ -1495,6 +1556,7 @@ function showWordInfo(isWin) {
   const winMessageElement = document.getElementById("win-message");
   const ipaElement = document.getElementById("info-ipa");
   const orthoElement = document.getElementById("info-ortho");
+  const replayBtn = document.getElementById("replay-btn");
 
   if (isWin) {
     const pool = currentRow <= 2 ? WIN_MESSAGES_EARLY
@@ -1507,20 +1569,30 @@ function showWordInfo(isWin) {
     winMessageElement.style.display = "none";
   }
 
+  replayBtn.style.display = "flex";
+  playWordAudio(targetWord.ortho);
+
   ipaElement.textContent =
     "/" + getDisplayIpa(getIpaForVariety(targetWord)) + "/";
-  orthoElement.textContent = targetWord.ortho;
+
+  // Set ortho text via child span; hide it behind blur until user reveals it
+  document.getElementById("ortho-text").textContent = targetWord.ortho;
+  orthoElement.classList.add("ortho-hidden");
 
   showOverlay("word-info");
   document.getElementById("mobile-new-game-button").classList.add("visible");
 }
 
-function hideWordInfo() { hideOverlay("word-info"); }
+function hideWordInfo() {
+  if (currentAudio) return;
+  hideOverlay("word-info");
+}
 
 /* =====================================
    Resets the game and selects new word
    ===================================== */
 function resetGame() {
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
   clearTimeout(messageTimeout);
   document.getElementById("message").style.display = "none";
   targetWord = WORDS[Math.floor(Math.random() * WORDS.length)];
