@@ -2,7 +2,7 @@
 <html lang="en">
 <!--
     PhonoLogically - A Wordle-Inspired IPA Learning Game
-    Version: 1.0.0
+    Version: 1.0.1
     Released: 08.04.2026
     Copyright: © 2026 Waitzmann
     License: CC BY-NC-SA 4.0
@@ -402,8 +402,15 @@
             <div id="win-message" class="win-message" style="display: none;"></div>
             <div class="info-title">Target Word</div>
             <div class="info-ipa" id="info-ipa"></div>
-            <div class="info-ortho-label">Spelling:</div>
-            <div class="info-ortho" id="info-ortho"></div>
+            <button id="replay-btn" class="replay-btn" style="display:none;" title="Replay pronunciation">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 192 192" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="10" d="M21 103h36l8-36 11 64 9-79 12 88 10-80 11 58 8-51 11 36h34"/></svg> <!--Lawnicons pack; Apache License 2.0-->
+                Replay
+            </button>
+            <div class="info-ortho-label">Spelling</div>
+            <div class="info-ortho" id="info-ortho">
+                <span id="ortho-text"></span>
+                <span class="ortho-reveal-hint">click to reveal</span>
+            </div>
             <div class="close-hint">click anywhere to continue</div>
         </div>
     </div>
