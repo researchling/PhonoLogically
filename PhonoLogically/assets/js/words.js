@@ -106,7 +106,7 @@ const WORDS = [
     { ipa: 'spʌndʒ', ortho: 'sponge' },
     { rp: ['ˈsʌbsɪkwənt', 'ˈsʌbsəkwənt'], ga: 'ˈsʌbsɪkwənt', ortho: 'subsequent' },
     { ipa: 'swet', ortho: 'sweat' },
-    { rp: 'ˈswetə', ga: 'ˈswet̬ɚ', ortho: 'sweater' },
+   { rp: 'ˈswetə', ga: 'ˈswet̬ɚ', ortho: 'sweater' },
     { rp: 'sɔːd', ga: 'sɔːrd', ortho: 'sword' },
     { rp: 'θəˈmɒmɪtə', ga: 'θɚˈmɑːmət̬ɚ', ortho: 'thermometer' },
     { ipa: 'ˈθiːsɪs', ortho: 'thesis' },
