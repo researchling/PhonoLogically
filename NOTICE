@@ -1,0 +1,14 @@
+PhonoLogically
+Copyright © 2026 Waitzmann
+Licensed under CC BY-NC-SA 4.0 (https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
+---
+
+This product includes components from third-party projects:
+
+Kokoro TTS (https://github.com/hexgrad/kokoro)
+Copyright © hexgrad
+Licensed under the Apache License, Version 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
+
+The pronunciation audio files distributed with this product were generated
+using the Kokoro text-to-speech model.
