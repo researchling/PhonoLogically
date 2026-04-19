@@ -1,4 +1,4 @@
-﻿:root {
+:root {
     /* Background colours */
     --bg-primary: #121213;
     --bg-panel: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
@@ -975,13 +975,36 @@ body.bg-three::before { background-image: url('../img/image-3.jpg'); }
     font-weight: bold;
     color: var(--text-primary);
     text-align: center;
-    margin-bottom: 24px;
+    margin-bottom: 12px;
     padding: 20px;
     background: rgba(255, 255, 255, 0.08);
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.15);
     font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
     word-break: keep-all;  /* prevent breaking within transcriptions */
+}
+
+.replay-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 0 auto 18px;
+    padding: 6px 16px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 20px;
+    color: var(--text-body);
+    font-size: 12px;
+    font-family: inherit;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.replay-btn:hover {
+    background: rgba(255, 255, 255, 0.13);
+    border-color: rgba(255, 255, 255, 0.28);
 }
 
 .info-ortho-label {
@@ -995,6 +1018,7 @@ body.bg-three::before { background-image: url('../img/image-3.jpg'); }
 }
 
 .info-ortho {
+    position: relative;
     font-size: 24px;
     font-weight: bold;
     color: var(--color-success);
@@ -1005,6 +1029,35 @@ body.bg-three::before { background-image: url('../img/image-3.jpg'); }
     border: 1px solid rgba(76, 175, 80, 0.4);
     text-transform: lowercase;
     font-style: italic;
+}
+
+.info-ortho.ortho-hidden {
+    cursor: pointer;
+}
+
+.info-ortho.ortho-hidden #ortho-text {
+    filter: blur(7px);
+    user-select: none;
+    display: inline-block; /* blur needs a block/inline-block context */
+}
+
+.ortho-reveal-hint {
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: normal;
+    color: var(--text-body);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    pointer-events: none;
+}
+
+.info-ortho.ortho-hidden .ortho-reveal-hint {
+    display: flex;
 }
 
 .close-hint,
@@ -1201,6 +1254,11 @@ body.bg-three .credit-three {
         padding: 10px 12px;
         font-size: 13px;
     }
+    .help-modal .demo-tile {
+        width: 34px;
+        height: 34px;
+        font-size: 16px;
+    }
 }
 
 @media (max-width: 380px) {
@@ -1235,4 +1293,3 @@ body.bg-three .credit-three {
     .info-modal td {
         font-size: 11px;
     }
-}
