@@ -15,6 +15,8 @@ const WORDS = [
     { ipa: 'əˈmʌŋ', ortho: 'among' },
     { rp: 'ænəˈlɪtɪk', ga: 'ænəˈlɪt̬ɪk', ortho: 'analytic' },
     { ipa: 'əˈsɪstənt', ortho: 'assistant' },
+    { rp: 'ˈbæleɪ', ga: 'bæˈleɪ', ortho: 'ballet'},
+    { ipa: ['ˈblesɪd', 'ˈblesəd'], ortho: 'blessed (adj.)'},
     { ipa: 'blest', ortho: 'blessed (p.p.)' },
     { rp: 'blaʊz', ga: 'blaʊs', ortho: 'blouse' },
     { ipa: 'breθ', ortho: 'breath' },
