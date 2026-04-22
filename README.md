@@ -99,6 +99,7 @@ This project benefited from contributions and support from:
 
 Game mechanics inspired by Wordle by Josh Wardle (2021).
 
+Many thanks to Katharine W. for kindly lending her voice to this educational tool.
 Special thanks to the Chair of English Linguistics at the University of Bamberg for the curated word list which is part of the curriculum for the English Phonetics and Phonology courses.
 
 ---
